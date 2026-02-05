@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import time
 
 def generate_set(resolution:int, max_iter:int):
     x_region = np.linspace(start=-2, stop=1, num=resolution)
@@ -22,10 +20,3 @@ def evaluate_point(x:float, y:float, max_iter:int):
             break
         else: n = max_iter
     return n
-
-start = time.time()
-grid = generate_set(1024, max_iter=100)
-plt.imshow(grid, cmap="hot", vmin=0, vmax=100)
-plt.show()
-end = time.time()
-print("Elapsed:", end - start, "seconds")
