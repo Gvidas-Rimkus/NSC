@@ -2,15 +2,15 @@ This file contains the results the different mandelbrot implementations.
 For this measure_performance.py has been implemented
 
 Setup for all experiments:
-    resolution=2048
-    max_iter=200
-    runs=100
+    resolution: (1024, 2048, 4096, 8192)
+    max_iter: 100
+    runs=: 100
 
 Reported are the 95% confidence intervals for each experiment.
 
 ============PERFORMANCES============
 Macbook:
-    CPU: M1
+    CPU: M1 8-Core (4 performance, 4 efficiency)
     GPU: None 
     RAM: LPDDR5 8GB
 
@@ -19,7 +19,20 @@ Desktop:
     GPU: NVIDIA RTX 5070
     RAM: DDR5 32GB
 ------------------------------------
-Version 1: Naive python.
+Version 1: Naive Python.
+res: 1024
+Macbook: 3.99609 ± 0.00932
+Desktop: ± 
+
+res: 2048
 Macbook: 24.78125 ± 0.03008
 Desktop: 19.70312 ± 0.26807
 ------------------------------------
+Version 2: NumPy Vectorized.
+res(1024)
+Macbook: 0.70605 ± 0.00436
+Desktop: 
+
+res(2048)
+Macbook:  
+Desktop: 
