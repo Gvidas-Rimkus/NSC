@@ -19,5 +19,3 @@ def measure_performance(resolution: int, runs: int):
     print("-------------------------------")
     print(f"95% CI: {mean:.5f} ± {ci:.5f}")
     return elapsed_times
-
-times = measure_performance(resolution=1024, runs=100)
