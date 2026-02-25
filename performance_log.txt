@@ -22,7 +22,7 @@ Desktop:
 Version 1: Naive Python.
 res: 1024
 Macbook: 3.99609 ± 0.00932
-Desktop: ± 
+Desktop: 3.18359 ± 0.00544
 
 res: 2048
 Macbook: 24.78125 ± 0.03008
@@ -30,9 +30,9 @@ Desktop: 19.70312 ± 0.26807
 ------------------------------------
 Version 2: NumPy Vectorized.
 res(1024)
-Macbook: 0.70605 ± 0.00436
-Desktop: 
+Macbook: 0.70605 ± 0.00436 (5.65x speedup)
+Desktop: 0.32275 ± 0.00129 (9.86x speedup)
 
 res(2048)
 Macbook:  
-Desktop: 
+Desktop: 1.59082 ± 0.00518 (12.38x speedup)

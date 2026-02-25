@@ -4,7 +4,7 @@ import numpy as np
 import time
 import math
 
-def measure_performance(resolution: int, runs: int):
+def measure_performance(resolution: int, runs = 100):
     elapsed_times = np.zeros((100), dtype=np.float16)
     for i in range(0,runs):
         start = time.perf_counter()
@@ -19,3 +19,6 @@ def measure_performance(resolution: int, runs: int):
     print("-------------------------------")
     print(f"95% CI: {mean:.5f} ± {ci:.5f}")
     return elapsed_times
+
+if __name__ == "__main__":
+    measure_performance(resolution=2048)
