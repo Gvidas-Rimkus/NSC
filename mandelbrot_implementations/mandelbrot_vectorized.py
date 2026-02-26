@@ -1,5 +1,6 @@
 import numpy as np
 
+@profile 
 def generate_set(resolution:int):
     x_region = np.linspace(start=-2, stop=1, num=resolution)
     y_region = np.linspace(start=-1.5, stop=1.5, num=resolution)
@@ -12,3 +13,6 @@ def generate_set(resolution:int):
         Z[mask] = Z[mask]**2 + C[mask]
         M[mask] += 1
     return M
+
+if __name__ == "__main__":
+    generate_set(resolution=1024)

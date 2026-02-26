@@ -34,5 +34,5 @@ Macbook: 0.70605 ± 0.00436 (5.65x speedup)
 Desktop: 0.32275 ± 0.00129 (9.86x speedup)
 
 res(2048)
-Macbook:  
+Macbook: 2.72266 ± 0.01243 (9.10x speedup)
 Desktop: 1.59082 ± 0.00518 (12.38x speedup)

@@ -1,0 +1,69 @@
+
+========== NAIVE ==========
+Thu Feb 26 13:41:35 2026    profiles/naive_profile.prof
+
+         23008341 function calls in 6.379 seconds
+
+   Ordered by: cumulative time
+   List reduced from 20 to 10 due to restriction <10>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    6.379    6.379 {built-in method builtins.exec}
+        1    0.000    0.000    6.379    6.379 <string>:1(<module>)
+        1    0.405    0.405    6.379    6.379 /Users/gvidasrimkus/projects/nsc/mandelbrot_implementations/mandelbrot_naive.py:3(generate_set)
+  1048576    5.204    0.000    5.973    0.000 /Users/gvidasrimkus/projects/nsc/mandelbrot_implementations/mandelbrot_naive.py:13(evaluate_point)
+ 21959734    0.769    0.000    0.769    0.000 {built-in method builtins.abs}
+        1    0.001    0.001    0.001    0.001 {built-in method numpy.zeros}
+        2    0.000    0.000    0.000    0.000 /Users/gvidasrimkus/miniforge3/envs/nsc/lib/python3.11/site-packages/numpy/_core/function_base.py:26(linspace)
+        2    0.000    0.000    0.000    0.000 {built-in method numpy.arange}
+        2    0.000    0.000    0.000    0.000 /Users/gvidasrimkus/miniforge3/envs/nsc/lib/python3.11/site-packages/numpy/_core/numeric.py:1964(isscalar)
+        2    0.000    0.000    0.000    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     3                                           @profile 
+     4                                           def generate_set(resolution:int):
+     5         1         29.0     29.0      0.0      x_region = np.linspace(start=-2, stop=1, num=resolution)
+     6         1         11.0     11.0      0.0      y_region = np.linspace(start=-1.5, stop=1.5, num=resolution)
+     7         1        613.0    613.0      0.0      grid = np.zeros((resolution, resolution))
+     8      1025         54.0      0.1      0.0      for i in range(0, resolution):
+     9   1049600      73895.0      0.1      0.8          for j in range(0, resolution):
+    10   1048576    9114507.0      8.7     96.8              n = evaluate_point(x=x_region[i], y=y_region[j], max_iter=100)
+    11   1048576     224450.0      0.2      2.4              grid[i][j] = n
+    12         1          0.0      0.0      0.0      return grid
+
+========== NUMPY ==========
+Thu Feb 26 13:41:35 2026    profiles/vectorized_profile.prof
+
+         73 function calls in 0.679 seconds
+
+   Ordered by: cumulative time
+   List reduced from 38 to 10 due to restriction <10>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.679    0.679 {built-in method builtins.exec}
+        1    0.001    0.001    0.679    0.679 <string>:1(<module>)
+        1    0.676    0.676    0.678    0.678 /Users/gvidasrimkus/projects/nsc/mandelbrot_implementations/mandelbrot_vectorized.py:3(generate_set)
+        1    0.000    0.000    0.001    0.001 /Users/gvidasrimkus/miniforge3/envs/nsc/lib/python3.11/site-packages/numpy/lib/_function_base_impl.py:5134(meshgrid)
+        3    0.000    0.000    0.001    0.000 /Users/gvidasrimkus/miniforge3/envs/nsc/lib/python3.11/site-packages/numpy/lib/_function_base_impl.py:5280(<genexpr>)
+        2    0.001    0.001    0.001    0.001 {method 'copy' of 'numpy.ndarray' objects}
+        2    0.001    0.000    0.001    0.000 {built-in method numpy.zeros}
+        2    0.000    0.000    0.000    0.000 /Users/gvidasrimkus/miniforge3/envs/nsc/lib/python3.11/site-packages/numpy/_core/function_base.py:26(linspace)
+        1    0.000    0.000    0.000    0.000 /Users/gvidasrimkus/miniforge3/envs/nsc/lib/python3.11/site-packages/numpy/lib/_stride_tricks_impl.py:481(broadcast_arrays)
+        1    0.000    0.000    0.000    0.000 /Users/gvidasrimkus/miniforge3/envs/nsc/lib/python3.11/site-packages/numpy/lib/_stride_tricks_impl.py:546(<listcomp>)
+    
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     3                                           @profile 
+     4                                           def generate_set(resolution:int):
+     5         1         26.0     26.0      0.0      x_region = np.linspace(start=-2, stop=1, num=resolution)
+     6         1          9.0      9.0      0.0      y_region = np.linspace(start=-1.5, stop=1.5, num=resolution)
+     7         1       1386.0   1386.0      0.2      X, Y = np.meshgrid(x_region, y_region)
+     8         1       4593.0   4593.0      0.7      C = X + 1j*Y
+     9         1         14.0     14.0      0.0      Z = np.zeros(shape=C.shape, dtype=complex)
+    10         1        630.0    630.0      0.1      M = np.zeros(shape=C.shape, dtype=int)
+    11       101         32.0      0.3      0.0      for _ in range(0, 100):
+    12       100     316594.0   3165.9     47.3          mask = np.abs(Z) <= 2
+    13       100     232833.0   2328.3     34.8          Z[mask] = Z[mask]**2 + C[mask]
+    14       100     112762.0   1127.6     16.9          M[mask] += 1
+    15         1          1.0      1.0      0.0      return M

@@ -1,5 +1,6 @@
 import numpy as np
 
+@profile 
 def generate_set(resolution:int):
     x_region = np.linspace(start=-2, stop=1, num=resolution)
     y_region = np.linspace(start=-1.5, stop=1.5, num=resolution)
@@ -20,3 +21,6 @@ def evaluate_point(x:float, y:float, max_iter:int):
             break
         else: n = max_iter
     return n
+
+if __name__ == "__main__":
+    generate_set(resolution=1024)
