@@ -7,6 +7,9 @@ def get_generate_fn(implementation: str):
     if implementation == "naive": from mandelbrot_implementations.naive import generate_set
     elif implementation == "vectorized": from mandelbrot_implementations.vectorized import generate_set
     elif implementation == "numba": from mandelbrot_implementations.numba import generate_set
+    elif implementation == "numba32": from mandelbrot_implementations.numba32 import generate_set
+    elif implementation == "numba_parallel": from mandelbrot_implementations.numba_parallel import generate_set
+    elif implementation == "numba32_parallel": from mandelbrot_implementations.numba32_parallel import generate_set
     return generate_set
 
 def measure_performance(resolution: int):
@@ -28,7 +31,12 @@ def measure_performance(resolution: int):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--resolution", type=int, default=1024, choices=[1024, 2048, 4096, 8192])
-    parser.add_argument("--implementation", type=str, default="numba", choices=["naive", "vectorized", "numba"])
+    parser.add_argument("--implementation", type=str, default="numba", choices=["naive", 
+                                                                                "vectorized", 
+                                                                                "numba", 
+                                                                                "numba32",
+                                                                                "numba_parallel",
+                                                                                "numba32_parallel"])
     args = parser.parse_args()
 
     generate_set = get_generate_fn(args.implementation)
