@@ -1,15 +1,17 @@
-# from mandelbrot_implementations.mandelbrot_naive import generate_set
-# from mandelbrot_implementations.vectorized import generate_set
-from mandelbrot_implementations.numba import generate_set
-# from mandelbrot_implementations.numba_vectorized import generate_set
-
 import numpy as np
 import time
 import math
+import argparse
 
-def measure_performance(resolution: int, runs = 100):
+def get_generate_fn(implementation: str):
+    if implementation == "naive": from mandelbrot_implementations.naive import generate_set
+    elif implementation == "vectorized": from mandelbrot_implementations.vectorized import generate_set
+    elif implementation == "numba": from mandelbrot_implementations.numba import generate_set
+    return generate_set
+
+def measure_performance(resolution: int):
     elapsed_times = np.zeros((100), dtype=np.float16)
-    for i in range(0,runs):
+    for i in range(0,100):
         start = time.perf_counter()
         generate_set(resolution=resolution)
         end = time.perf_counter()
@@ -18,11 +20,18 @@ def measure_performance(resolution: int, runs = 100):
         print(f"Run {i}: Time {elapsed:.3f}")
     mean = np.mean(elapsed_times)
     std = np.std(elapsed_times)
-    ci = 1.96 * std / math.sqrt(runs)
+    ci = 1.96 * std / math.sqrt(100)
     print("-------------------------------")
     print(f"95% CI: {mean:.5f} ± {ci:.5f}")
     return elapsed_times
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--resolution", type=int, default=1024, choices=[1024, 2048, 4096, 8192])
+    parser.add_argument("--implementation", type=str, default="numba", choices=["naive", "vectorized", "numba"])
+    args = parser.parse_args()
+
+    generate_set = get_generate_fn(args.implementation)
+
     _ = generate_set(resolution=64) #warm-up
-    measure_performance(1024)
+    measure_performance(resolution=args.resolution)
