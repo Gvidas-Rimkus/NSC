@@ -7,6 +7,7 @@ Setup for all experiments:
     runs=: 100
 
 Reported are the 95% confidence intervals for each experiment.
+The speedups are always compared to Version 1 of same system and resolution.
 
 ============PERFORMANCES============
 Macbook:
@@ -19,7 +20,7 @@ Desktop:
     GPU: NVIDIA RTX 5070
     RAM: DDR5 32GB
 ------------------------------------
-Version 1: Naive Python.
+Version 1: Naive.
 res: 1024
 Macbook: 3.99609 ± 0.00932
 Desktop: 3.18359 ± 0.00544
@@ -28,7 +29,7 @@ res: 2048
 Macbook: 24.78125 ± 0.03008
 Desktop: 19.70312 ± 0.26807
 ------------------------------------
-Version 2: NumPy Vectorized.
+Version 2: Vectorized.
 res(1024)
 Macbook: 0.70605 ± 0.00436 (5.65x speedup)
 Desktop: 0.32275 ± 0.00129 (9.86x speedup)
@@ -36,3 +37,12 @@ Desktop: 0.32275 ± 0.00129 (9.86x speedup)
 res(2048)
 Macbook: 2.72266 ± 0.01243 (9.10x speedup)
 Desktop: 1.59082 ± 0.00518 (12.38x speedup)
+------------------------------------
+Version 3: Numba.
+res(1024)
+Macbook: 0.06366 ± 0.00008 (62.77x speedup)
+Desktop: 
+
+res(2048)
+Macbook: 0.25293 ± 0.00014 (97.98x speedup)
+Desktop: 

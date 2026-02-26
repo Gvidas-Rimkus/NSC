@@ -1,6 +1,6 @@
 import numpy as np
 
-@profile 
+# @profile
 def generate_set(resolution:int):
     x_region = np.linspace(start=-2, stop=1, num=resolution)
     y_region = np.linspace(start=-1.5, stop=1.5, num=resolution)

@@ -1,5 +1,8 @@
 # from mandelbrot_implementations.mandelbrot_naive import generate_set
-from mandelbrot_implementations.mandelbrot_vectorized import generate_set
+# from mandelbrot_implementations.vectorized import generate_set
+from mandelbrot_implementations.numba import generate_set
+# from mandelbrot_implementations.numba_vectorized import generate_set
+
 import numpy as np
 import time
 import math
@@ -21,4 +24,5 @@ def measure_performance(resolution: int, runs = 100):
     return elapsed_times
 
 if __name__ == "__main__":
-    measure_performance(resolution=2048)
+    _ = generate_set(resolution=64) #warm-up
+    measure_performance(1024)
