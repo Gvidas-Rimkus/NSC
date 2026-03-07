@@ -6,7 +6,7 @@ import argparse
 def get_generate_fn(implementation: str):
     if implementation == "naive": from mandelbrot_implementations.naive import generate_set
     elif implementation == "vectorized": from mandelbrot_implementations.vectorized import generate_set
-    elif implementation == "numba": from mandelbrot_implementations.numba import generate_set
+    elif implementation == "numba": from mandelbrot_implementations.numba_original import generate_set
     elif implementation == "numba32": from mandelbrot_implementations.numba32 import generate_set
     elif implementation == "numba_parallel": from mandelbrot_implementations.numba_parallel import generate_set
     elif implementation == "numba32_parallel": from mandelbrot_implementations.numba32_parallel import generate_set

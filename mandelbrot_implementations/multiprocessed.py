@@ -1,26 +1,38 @@
 from multiprocessing import Pool
 from numba import njit
 import numpy as np
-import psutil
-import os
+import statistics
 import time
+import math
+import os
 
-@njit
-def generate_set(resolution=1024, x_min=-2, x_max=1, y_min=-1.5, y_max=1.5):
-    return generate_subset(row_start=0, row_end=resolution, resolution=resolution, x_min=x_min, x_max=x_max, y_min=y_min, y_max=y_max)
+def generate_set(resolution=1024, x_min=-2, x_max=1, y_min=-1.5, y_max=1.5, n_workers=6):
+    chunk_size = max(1, resolution // n_workers)
+    chunks, row = [], 0
+    while row < resolution:
+        row_end = min(row + chunk_size, resolution)
+        chunks.append((row, row_end, resolution, x_min, x_max, y_min, y_max))
+        row = row_end
+    with Pool(processes=n_workers) as pool:
+        pool.map(_worker, chunks)
+        parts = pool.map(_worker, chunks)
+    return np.vstack(parts)
 
-@njit
+def _worker(args):
+    return generate_subset(*args)
+
+@njit(fastmath=True)
 def generate_subset(row_start, row_end, resolution, x_min, x_max, y_min, y_max):
     x_region = np.linspace(start=x_min, stop=x_max, num=resolution)
     y_region = np.linspace(start=y_min, stop=y_max, num=resolution)
     grid = np.empty((row_end - row_start, resolution), dtype=np.int32)
     for i in range(row_end - row_start):
         for j in range(resolution):
-            n = evaluate_point(x=x_region[i], y=y_region[j], max_iter=100)
+            n = evaluate_point(x=x_region[row_start + i], y=y_region[j], max_iter=100)
             grid[i][j] = n
     return grid
 
-@njit
+@njit(fastmath=True)
 def evaluate_point(x:float, y:float, max_iter:int):
     c = x + 1j*y
     z = 0
@@ -33,4 +45,62 @@ def evaluate_point(x:float, y:float, max_iter:int):
     return n
 
 if __name__ == "__main__":
-    generate_set(resolution=1024, x_min=-2, x_max=1, y_min=-1.5, y_max=1.5)
+    resolution = 2048
+    x_min=-2 
+    x_max=1
+    y_min=-1.5 
+    y_max=1.5
+    times = []
+    for _ in range(10):
+        t0 = time.perf_counter()
+        generate_subset(row_start=0, row_end=resolution, resolution=resolution, x_min=x_min, x_max=x_max, y_min=y_min, y_max=y_max)
+        times.append(time.perf_counter() - t0)
+    t_serial = statistics.median(times)
+
+    for n_workers in range(1, os.cpu_count()+1):
+        chunk_size = max(1, resolution // n_workers)
+        chunks, row = [], 0
+        while row < resolution:
+            row_end = min(row + chunk_size, resolution)
+            chunks.append((row, row_end, resolution, x_min, x_max, y_min, y_max))
+            row = row_end
+        with Pool(processes=n_workers) as pool:
+            pool.map(_worker, chunks) #warm up
+            times = []
+            for _ in range(10):
+                t0 = time.perf_counter()
+                np.vstack(pool.map(_worker, chunks))
+                times.append(time.perf_counter() - t0)
+            t_par = statistics.median(times)
+            std = np.std(times)
+            ci = 1.96 * std / math.sqrt(10)
+            speedup = t_serial / t_par
+            print(f"{n_workers:2d} workers: {t_par:.5f} ± {ci:.5f}s, speedup={speedup:.2f}x, eff={speedup/n_workers*100:.0f}%")
+
+#  resolution = 1024
+#  1 workers: 0.11720 ± 0.00077s, speedup=0.92x, eff=92%
+#  2 workers: 0.07473 ± 0.00047s, speedup=1.45x, eff=72%
+#  3 workers: 0.06548 ± 0.00034s, speedup=1.65x, eff=55%
+#  4 workers: 0.06187 ± 0.00219s, speedup=1.75x, eff=44%
+#  5 workers: 0.04769 ± 0.00036s, speedup=2.27x, eff=45%
+#  6 workers: 0.04344 ± 0.00060s, speedup=2.49x, eff=42%
+#  7 workers: 0.03871 ± 0.00126s, speedup=2.80x, eff=40%
+#  8 workers: 0.03438 ± 0.00106s, speedup=3.15x, eff=39%
+#  9 workers: 0.03274 ± 0.00113s, speedup=3.31x, eff=37%
+# 10 workers: 0.03036 ± 0.00160s, speedup=3.57x, eff=36%
+# 11 workers: 0.02884 ± 0.00160s, speedup=3.76x, eff=34%
+# 12 workers: 0.02739 ± 0.00136s, speedup=3.95x, eff=33%
+
+#  resolution = 2048
+#  1 workers: 0.46752 ± 0.00903s, speedup=0.91x, eff=91%
+#  2 workers: 0.30242 ± 0.00745s, speedup=1.41x, eff=71%
+#  3 workers: 0.26086 ± 0.00451s, speedup=1.64x, eff=55%
+#  4 workers: 0.24743 ± 0.00346s, speedup=1.73x, eff=43%
+#  5 workers: 0.18663 ± 0.00173s, speedup=2.29x, eff=46%
+#  6 workers: 0.17285 ± 0.00194s, speedup=2.47x, eff=41%
+#  7 workers: 0.15448 ± 0.00156s, speedup=2.77x, eff=40%
+#  8 workers: 0.13181 ± 0.00152s, speedup=3.24x, eff=41%
+#  9 workers: 0.12810 ± 0.00205s, speedup=3.34x, eff=37%
+# 10 workers: 0.11751 ± 0.00488s, speedup=3.64x, eff=36%
+# 11 workers: 0.10688 ± 0.00417s, speedup=4.00x, eff=36%
+# 12 workers: 0.10937 ± 0.00411s, speedup=3.91x, eff=33%

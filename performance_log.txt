@@ -85,3 +85,14 @@ res(2048)
 Macbook: 
 Desktop: 0.03842 ± 0.00094 (512.83x speedup)
 ----------------------------------------------
+
+----------------------------------------------
+Version 4: Multiprocessed.
+res(1024)
+Macbook: 
+Desktop: 0.02739 ± 0.00136 (116.23x speedup) (fastest time achieved with n_workers=12)
+
+res(2048)
+Macbook: 
+Desktop: 0.10688 ± 0.00417 (184.35x speedup) (fastest time achieved with n_workers=11)
+----------------------------------------------
