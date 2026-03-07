@@ -1,4 +1,4 @@
-from mandelbrot_implementations.numba32_parallel import generate_set
+from mandelbrot_implementations.multiprocessed import generate_set
 import matplotlib.pyplot as plt
 
 grid = generate_set(resolution=8192)
