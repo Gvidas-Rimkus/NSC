@@ -49,7 +49,7 @@ def evaluate_point(x:float, y:float, max_iter:int):
 
 if __name__ == "__main__":
     n_workers = 12
-    resolution = 2048
+    resolution = 1024
     x_min=-2 
     x_max=1
     y_min=-1.5 
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     #         ci = 1.96 * std / math.sqrt(10)
     #         speedup = t_serial / t_par
     #         print(f"{n_workers:2d} workers: {t_par:.5f} ± {ci:.5f}s, speedup={speedup:.2f}x, eff={speedup/n_workers*100:.0f}%")
-    chunk_counts = [n_workers * multiple for multiple in [4]]
+    chunk_counts = [n_workers * multiple for multiple in [1, 2, 4, 8, 16, 32, 64, 128]]
     for chunk_count in chunk_counts:
         chunk_size = max(1, resolution // chunk_count)
         chunks, row = [], 0
@@ -133,5 +133,25 @@ if __name__ == "__main__":
 # 12 workers: 0.10937 ± 0.00411s, speedup=3.91x, eff=33%
 
 # MP2 M1: 
-#   res 1024: 48 chunks, 12 workers: 0.02479 ± 0.00096s, speedup=4.37x, eff=36%
-#   res 2048: 48 chunks, 12 workers: 0.09287 ± 0.00303s, speedup=4.57x, eff=38%
+# res 1024: 48 chunks, 12 workers: 0.02479 ± 0.00096s, speedup=4.37x, eff=36%
+# res 2048: 48 chunks, 12 workers: 0.09287 ± 0.00303s, speedup=4.57x, eff=38%
+
+# MP2 M2:
+# res 1024:
+# 12 chunks, 12 workers: 0.02842 ± 0.00095s, speedup=3.81x, eff=32%
+# 24 chunks, 12 workers: 0.02451 ± 0.00075s, speedup=4.41x, eff=37%
+# 48 chunks, 12 workers: 0.02605 ± 0.00128s, speedup=4.15x, eff=35%
+# 96 chunks, 12 workers: 0.02337 ± 0.00070s, speedup=4.63x, eff=39%
+# 192 chunks, 12 workers: 0.02296 ± 0.00080s, speedup=4.71x, eff=39%
+# 384 chunks, 12 workers: 0.02426 ± 0.00056s, speedup=4.46x, eff=37%
+# 768 chunks, 12 workers: 0.02408 ± 0.00048s, speedup=4.49x, eff=37%
+# 1536 chunks, 12 workers: 0.02452 ± 0.00069s, speedup=4.41x, eff=37%
+# res 2048:
+# 12 chunks, 12 workers: 0.10678 ± 0.00401s, speedup=3.97x, eff=33%
+# 24 chunks, 12 workers: 0.09366 ± 0.00250s, speedup=4.53x, eff=38%
+# 48 chunks, 12 workers: 0.09325 ± 0.00295s, speedup=4.55x, eff=38%
+# 96 chunks, 12 workers: 0.09030 ± 0.00159s, speedup=4.70x, eff=39%
+# 192 chunks, 12 workers: 0.08915 ± 0.00139s, speedup=4.76x, eff=40%
+# 384 chunks, 12 workers: 0.08784 ± 0.00168s, speedup=4.83x, eff=40%
+# 768 chunks, 12 workers: 0.08944 ± 0.00269s, speedup=4.74x, eff=40%
+# 1536 chunks, 12 workers: 0.08903 ± 0.00211s, speedup=4.76x, eff=40%
