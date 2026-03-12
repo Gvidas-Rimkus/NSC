@@ -95,3 +95,14 @@ res(2048)
 Macbook: 
 Desktop: 0.10688 ± 0.00417 (184.35x speedup) (fastest time achieved with n_workers=11)
 ----------------------------------------------
+
+----------------------------------------------
+Version 4: Multiprocessed Optimal Chunks.
+res(1024)
+Macbook: 
+Desktop: 0.02296 ± 0.00080 (138.67x speedup) (fastest time achieved with 192 chunks)
+
+res(2048)
+Macbook: 
+Desktop: 0.08784 ± 0.00168 (224.31x speedup) (fastest time achieved with 384 chunks)
+----------------------------------------------
