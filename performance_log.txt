@@ -4,7 +4,6 @@ For this measure_performance.py has been implemented
 Setup for all experiments:
     resolution: (1024, 2048, 4096, 8192)
     max_iter: 100
-    runs=: 100
 
 Reported are the 95% confidence intervals for each experiment.
 The speedups are always compared to Version 1 of same system and resolution.
