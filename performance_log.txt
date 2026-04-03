@@ -2,7 +2,7 @@ This file contains the results the different mandelbrot implementations.
 For this measure_performance.py has been implemented
 
 Setup for all experiments:
-    resolution: (1024, 2048, 4096, 8192)
+    resolution: (1024, 2048)
     max_iter: 100
 
 Reported are the 95% confidence intervals for each experiment.
@@ -97,7 +97,7 @@ Desktop: 0.10688 ± 0.00417 (184.35x speedup) (fastest time achieved with n_work
 ----------------------------------------------
 
 ----------------------------------------------
-Version 4: Multiprocessed Optimal Chunks.
+Version 4.1: Multiprocessed Optimal Chunks.
 res(1024)
 Macbook: 
 Desktop: 0.02296 ± 0.00080 (138.67x speedup) (fastest time achieved with 192 chunks)
@@ -105,4 +105,15 @@ Desktop: 0.02296 ± 0.00080 (138.67x speedup) (fastest time achieved with 192 ch
 res(2048)
 Macbook: 
 Desktop: 0.08784 ± 0.00168 (224.31x speedup) (fastest time achieved with 384 chunks)
+----------------------------------------------
+
+----------------------------------------------
+Version 5: Dask Local 32 chunks.
+res(1024)
+Macbook: 
+Desktop: 0.05530 ± 0.00379 (57.57x speedup) (n_workers=11)
+
+res(2048)
+Macbook: 
+Desktop: 0.13057 ± 0.01623 (150.90x speedup) (n_workers=12)
 ----------------------------------------------
