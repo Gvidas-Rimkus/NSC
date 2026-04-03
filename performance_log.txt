@@ -111,9 +111,20 @@ Desktop: 0.08784 ± 0.00168 (224.31x speedup) (fastest time achieved with 384 ch
 Version 5: Dask Local 32 chunks.
 res(1024)
 Macbook: 
-Desktop: 0.05530 ± 0.00379 (57.57x speedup) (n_workers=11)
+Desktop: 0.04395 ± (forgot std) (72.44x speedup) (n_workers=12)
 
 res(2048)
 Macbook: 
-Desktop: 0.13057 ± 0.01623 (150.90x speedup) (n_workers=12)
+Desktop: 0.06430 ± (forgot std) (306.42x speedup) (n_workers=12)
+----------------------------------------------
+
+----------------------------------------------
+Version 5.1: Dask Local optimal chunks.
+res(1024)
+Macbook: 
+Desktop: 0.03588 ± (forgot std) (88.73x speedup) (n_workers=12, n_chunks=16)
+
+res(2048)
+Macbook: 
+Desktop: 0.06430 ± (forgot std) (306.42x speedup) (n_workers=12, n_chunks=32)
 ----------------------------------------------
