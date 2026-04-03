@@ -128,3 +128,14 @@ res(2048)
 Macbook: 
 Desktop: 0.06430 ± (forgot std) (306.42x speedup) (n_workers=12, n_chunks=32)
 ----------------------------------------------
+
+----------------------------------------------
+Version 6: Dask Cluster optimal chunks.
+res(1024)
+Macbook: 
+Desktop: 0.10501 ± (forgot std) (30.31x speedup) (n_workers=4, n_chunks=1)
+
+res(2048)
+Macbook: 
+Desktop: 0.31684 ± (forgot std) (62.17x speedup) (n_workers=4, n_chunks=2)
+----------------------------------------------
