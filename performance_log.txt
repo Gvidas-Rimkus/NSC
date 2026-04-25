@@ -167,3 +167,14 @@ res(2048)
 Macbook: 
 Desktop: 0.31684 ± (forgot std) (62.17x speedup) (n_workers=4, n_chunks=2)
 ----------------------------------------------
+
+----------------------------------------------
+Version 7: GPU 32 precision
+res(1024)
+Macbook:
+Desktop: 0.00020 ± 0.00007 (15917.95x speedup)
+
+res(2048)
+Macbook:
+Desktop: 0.00031 ± 0.00010 (63558.45x speedup)
+----------------------------------------------
