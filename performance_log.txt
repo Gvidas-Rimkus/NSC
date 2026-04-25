@@ -8,6 +8,34 @@ Setup for all experiments:
 Reported are the 95% confidence intervals for each experiment.
 The speedups are always compared to Version 1 of same system and resolution.
 
+
+================TESTS==================
+test_mandelbrot.py::test_evaluate_point_analytically_known[0.0-0.0-100] PASSED [ 14%]
+test_mandelbrot.py::test_evaluate_point_analytically_known[3.0-0.0-0] PASSED [ 28%]
+test_mandelbrot.py::test_evaluate_point_analytically_known[0.0-3.0-0] PASSED [ 42%]
+test_mandelbrot.py::test_generate_set_cross_validates_naive_vs_multiprocessed PASSED [ 57%]
+test_mandelbrot.py::test_dask_evaluate_point_matches_known_values[0.0-0.0-100] PASSED [ 71%]
+test_mandelbrot.py::test_dask_evaluate_point_matches_known_values[3.0-0.0-0] PASSED [ 85%]
+test_mandelbrot.py::test_dask_evaluate_point_matches_known_values[0.0-3.0-0] PASSED [100%]
+
+COVERAGE:
+Name                                             Stmts   Miss  Cover
+--------------------------------------------------------------------
+mandelbrot_implementations/dask_cluster.py          82     82     0%
+mandelbrot_implementations/dask_local.py            84     70    17%
+mandelbrot_implementations/multiprocessed.py        78     52    33%
+mandelbrot_implementations/naive.py                 22      1    95%
+mandelbrot_implementations/numba32.py               21     21     0%
+mandelbrot_implementations/numba32_parallel.py      21     21     0%
+mandelbrot_implementations/numba_original.py        21     21     0%
+mandelbrot_implementations/numba_parallel.py        21     21     0%
+mandelbrot_implementations/vectorized.py            15     15     0%
+--------------------------------------------------------------------
+TOTAL                                              365    304    17%
+============================== 7 passed in 1.11s ===============================
+
+
+
 ================PERFORMANCES==================
 Macbook:
     CPU: M1 8-Core (4 performance, 4 efficiency)
